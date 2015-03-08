@@ -1,0 +1,22 @@
+{
+  "name": "jsmo",
+  "version": "1.0.0",
+  "description": "Javascript markup object",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danpaul/jsmo.git"
+  },
+  "author": "Dan Breczinski <pt2323@gmail.com> (https://github.com/danpaul)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danpaul/jsmo/issues"
+  },
+  "homepage": "https://github.com/danpaul/jsmo",
+  "dependencies": {
+    "underscore": "^1.8.2"
+  }
+}
