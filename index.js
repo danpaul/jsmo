@@ -8,8 +8,15 @@ jsmo.test = function(obj){
 
 jsmo.compile = function(element, data, isOuter){
 
+    if( _.isFunction(element) ){
+        return '<script>(' + String(element) + ')();</script>'
+        // console.log(element)
+        // return
+    }
+
     var key = _.keys(element)[0]
     var markup = ''
+
 
     if( typeof(isOuter) === 'undefined' ){
         markup += '<!doctype html>'

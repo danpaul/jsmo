@@ -13,11 +13,12 @@ JSMO is a sort of silly experiment to try to implement a Javascript to HTML spec
   * If it is an array it defines the tag's children.
   * If it is a string, it is considered literal markup and gets included into the markup directly.
 * If a string is used as the second element of the array, an optional third element may be given which is an array which defines the elements children (this would normally be the second element of the array).
+* If a function is used instead of an object for the tag, that function gets inlined as a client-side function.
 
 ## Examples
 
 ```Javascript
-var jsmo = require('../index')
+var jsmo = require('./index')
 var _ = require('underscore')
 
 var users = [
@@ -26,7 +27,7 @@ var users = [
 ]
 
 var testContent = [
-    {p: [{}, 'test paragraph 1']},
+    {p: [{id: 'first-paragraph'}, 'test paragraph 1']},
     {p: [{}, 'test paragraph 2']},
     {div: [{}, function(){
         return 'This is some div content.'
@@ -45,7 +46,12 @@ var testDoc = {
             {body: [
                 { id:'body-id', class: ['class-one', 'class-two'] },
                 testContent
-            ]}
+            ]},
+            function(){
+                // this gets executed on the client side
+                console.log('Client side script.')
+                console.log(document.getElementById('first-paragraph').innerHTML)
+            }
         ]
     ]
 }
@@ -59,7 +65,7 @@ Formatted output:
 <!doctype html>
 <html class="outer-class">
     <body id="body-id" class="class-one class-two">
-        <p>test paragraph 1</p>
+        <p id="first-paragraph">test paragraph 1</p>
         <p>test paragraph 2</p>
         <div>This is some div content.</div>
         <div id="user-section">
@@ -67,5 +73,11 @@ Formatted output:
             <p class="user">Jane is 44.</p>
         </div>
     </body>
+    <script>(function (){
+        // this gets executed on the client side
+        console.log('Client side script.')
+        console.log(document.getElementById('first-paragraph').innerHTML)
+        })();
+    </script>
 </html>
 ```

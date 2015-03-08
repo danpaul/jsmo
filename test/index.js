@@ -7,7 +7,7 @@ var users = [
 ]
 
 var testContent = [
-    {p: [{}, 'test paragraph 1']},
+    {p: [{id: 'first-paragraph'}, 'test paragraph 1']},
     {p: [{}, 'test paragraph 2']},
     {div: [{}, function(){
         return 'This is some div content.'
@@ -26,7 +26,12 @@ var testDoc = {
             {body: [
                 { id:'body-id', class: ['class-one', 'class-two'] },
                 testContent
-            ]}
+            ]},
+            function(){
+                // this gets executed on the client side
+                console.log('Client side script.')
+                console.log(document.getElementById('first-paragraph').innerHTML)
+            }
         ]
     ]
 }
