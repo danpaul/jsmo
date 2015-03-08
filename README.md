@@ -1,13 +1,13 @@
 # JSMO
 
 ## About
-JSMO is a sort of silly expirament to try to implement a markup languate in Javascript. The specification uses the following rules:
+JSMO is a sort of silly experiment to try to implement a Javascript to HTML specification and compiler. The specification uses the following rules:
 
 ### Tags
 * Each html tag is an object with one key/value pair.
 * The value of this tag object is an array.
 * The first element of this array is an object.
-  * This ojbect defines the tag's attributes.
+  * This object defines the tag's attributes.
 * The second element of the array is either an array or a string.
   * If it is an array it defines the tag's children.
   * If it is a string, it is considered literal markup and gets included into the markup directly.
