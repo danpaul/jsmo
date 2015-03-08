@@ -17,10 +17,16 @@ jsmo.compile = function(element, data, isOuter){
 
     markup += jsmo.getOpenTag(element, key)
 
-    var children = element[key][1]
+    var secondElement = element[key][1]
 
-    if( jsmo.isString(element[key][1]) ){
-        markup += element[key][1]
+    if( _.isFunction(element[key][1]) ){
+        secondElement = element[key][1]()
+    }
+
+    var children = secondElement
+
+    if( _.isString(secondElement) ){
+        markup += secondElement
         if( element[key][2] ){
             children = element[key][2]
         } else {
@@ -78,10 +84,6 @@ jsmo.getProperties = function(properties){
     })
 
     return propertyString
-}
-
-jsmo.isString = function(element){
-    return( typeof element == 'string' || element instanceof String)
 }
 
 module.exports = jsmo
