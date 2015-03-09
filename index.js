@@ -2,16 +2,17 @@ _ = require('underscore')
 
 var jsmo = {}
 
-jsmo.test = function(obj){
-    console.log(obj)
-}
 
+/**
+* Takes JSMO object (object following JSMO spec)
+*/
 jsmo.compile = function(element, data, isOuter){
+
+// console.log(data)
+// return
 
     if( _.isFunction(element) ){
         return '<script>(' + String(element) + ')();</script>'
-        // console.log(element)
-        // return
     }
 
     var key = _.keys(element)[0]
@@ -27,7 +28,7 @@ jsmo.compile = function(element, data, isOuter){
     var secondElement = element[key][1]
 
     if( _.isFunction(element[key][1]) ){
-        secondElement = element[key][1]()
+        secondElement = element[key][1](data)
     }
 
     var children = secondElement
@@ -42,17 +43,24 @@ jsmo.compile = function(element, data, isOuter){
     }
 
     _.each(children, function(child){
-        markup += jsmo.compile(child, null, false)
+        markup += jsmo.compile(child, data, false)
     })
 
     return markup + jsmo.getCloseTag(key)
 
 }
 
+/**
+* Returns closing tag
+*/
 jsmo.getCloseTag = function(key){
     return '</' + key + '>'
 }
 
+/**
+* Takes full object and key (tag)
+* Returns tag with atributes
+*/
 jsmo.getOpenTag = function(element, key){
 
     var tag = '<' + key
@@ -64,6 +72,9 @@ jsmo.getOpenTag = function(element, key){
     return tag + '>'    
 }
 
+/**
+* Parses tag attributes.
+*/
 jsmo.getProperties = function(properties){
 
     var propertyString = ''

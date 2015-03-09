@@ -6,7 +6,15 @@ var users = [
     {name: 'Jane', age: '44'}
 ]
 
-var testContent = [
+var templateData = {
+    title: 'This is a title.'
+}
+
+var headContent = [
+    {title: [{}, function(d){ return d.title }]}
+]
+
+var bodyContent = [
     {p: [{id: 'first-paragraph'}, 'test paragraph 1']},
     {p: [{}, 'test paragraph 2']},
     {div: [{}, function(){
@@ -17,24 +25,25 @@ var testContent = [
             return {p: [{class: 'user'}, user.name + ' is ' + user.age + '.']}
         })
     }]},
+    function(){
+        // this gets executed on the client side
+        console.log('Client side script.')
+        console.log(document.getElementById('first-paragraph').innerHTML)
+    }
 ]
 
 var testDoc = {
     'html': [
         { class: 'outer-class' },
         [
+            {head: [{}, headContent]},
             {body: [
                 { id:'body-id', class: ['class-one', 'class-two'] },
-                testContent
-            ]},
-            function(){
-                // this gets executed on the client side
-                console.log('Client side script.')
-                console.log(document.getElementById('first-paragraph').innerHTML)
-            }
+                bodyContent
+            ]}
         ]
     ]
 }
 
-var markup = jsmo.compile(testDoc, null)
+var markup = jsmo.compile(testDoc, templateData)
 console.log(markup)
