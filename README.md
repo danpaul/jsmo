@@ -15,7 +15,7 @@ JSMO is a sort of silly experiment to try to implement a Javascript to HTML spec
 * If a string is used as the second element of the array, an optional third element may be given which is an array which defines the elements children (this would normally be the second element of the array).
 * If a function is used instead of an object for the tag, that function gets inlined as a client-side function.
 
-## Examples
+## Example
 
 ```Javascript
 var jsmo = require('./index')
