@@ -8,9 +8,6 @@ var jsmo = {}
 */
 jsmo.compile = function(element, data, isOuter){
 
-// console.log(data)
-// return
-
     if( _.isFunction(element) ){
         return '<script>(' + String(element) + ')();</script>'
     }
@@ -25,9 +22,15 @@ jsmo.compile = function(element, data, isOuter){
 
     markup += jsmo.getOpenTag(element, key)
 
-    var secondElement = element[key][1]
+    if( _.isFunction(element[key]) ){
+        var secondElement = element[key](data)
+    } else if( _.isString(element[key]) ) {
+        var secondElement = element[key]
+    } else {
+        var secondElement = element[key][1]
+    }
 
-    if( _.isFunction(element[key][1]) ){
+    if( element[key][1] && _.isFunction(element[key][1]) ){
         secondElement = element[key][1](data)
     }
 
@@ -35,7 +38,7 @@ jsmo.compile = function(element, data, isOuter){
 
     if( _.isString(secondElement) ){
         markup += secondElement
-        if( element[key][2] ){
+        if( !_.isString(element[key]) && element[key][2] ){
             children = element[key][2]
         } else {
             children = []
@@ -65,7 +68,10 @@ jsmo.getOpenTag = function(element, key){
 
     var tag = '<' + key
 
-    if( !_.isEmpty(element[key][0]) ){
+    if( !_.isFunction(element[key]) &&
+        !_.isString(element[key]) &&
+        !_.isEmpty(element[key][0]) ){
+
         tag += ' ' + jsmo.getProperties(element[key][0])
     }
 
@@ -73,7 +79,7 @@ jsmo.getOpenTag = function(element, key){
 }
 
 /**
-* Parses tag attributes.
+* Parses tag attributes
 */
 jsmo.getProperties = function(properties){
 

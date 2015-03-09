@@ -7,16 +7,22 @@ var users = [
 ]
 
 var templateData = {
-    title: 'This is a title.'
+    title: 'This is the site title.'
 }
 
 var headContent = [
-    {title: [{}, function(d){ return d.title }]}
+    {title: function(d){ return d.title }}
+    // alternate form:
+    // {title: [{}, function(d){ return d.title }]}
 ]
 
 var bodyContent = [
     {p: [{id: 'first-paragraph'}, 'test paragraph 1']},
-    {p: [{}, 'test paragraph 2']},
+
+    {p: 'test paragraph 2'},
+    // alternate form:
+    // {p: [{}, 'test paragraph 2']},
+
     {div: [{}, function(){
         return 'This is some div content.'
     }]},
@@ -26,7 +32,7 @@ var bodyContent = [
         })
     }]},
     function(){
-        // this gets executed on the client side
+        // this gets in-lined and executed on the client side
         console.log('Client side script.')
         console.log(document.getElementById('first-paragraph').innerHTML)
     }
